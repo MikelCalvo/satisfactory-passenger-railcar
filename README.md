@@ -1,2 +1,23 @@
-# tsabs-passenger-wagon
-Paquete experimental del vagon de pasajeros de Tsabs para Satisfactory Steam.
+# Tsabs Passenger Wagon — pruebas
+
+Paquete experimental de un vagón de pasajeros para Satisfactory Steam.
+
+## Versión 0.1.7
+- Vagón independiente, sin conducción ni inventario para el pasajero.
+- Cámara exterior orbital y avisos de interacción con la tecla configurada.
+- Subir y bajar solo con velocidad absoluta inferior a **30 km/h**, en ambos sentidos y manteniendo la comprobación de salida libre.
+- Una plaza de prueba por vagón. No se ha validado todavía capacidad múltiple.
+
+## Descarga e instalación
+Usa el ZIP de **Releases**, no los botones automáticos «Source code».
+El paquete incluye `LEEME.txt`, un perfil generado para SMM3 que solicita **solo SML 3.12.0** y la carpeta del vagón privado.
+**No se importa el ZIP completo en Mod Manager.** Descomprime y sigue las fases del LEEME.
+
+Entorno de prueba: Satisfactory Steam **1.2.4.1 / CL513885**, **SML 3.12.0**.
+No usar partidas personales. Primero verificar el cargador en el menú, después el vagón y solo entonces la conexión a la partida de pruebas.
+
+## Estado de verificación
+- Compilación, paquete y arranque del anfitrión Windows comprobados.
+- Las DLL y recursos de esta descarga son los mismos que los instalados y verificados en el anfitrión; se excluyen los símbolos de depuración.
+- **Linux mediante Proton, importación real del perfil SMM y multijugador con cliente remoto siguen pendientes de validación.** El perfil se ha comprobado estructuralmente contra el formato del gestor, no se presenta como una importación ya ejecutada.
+- Este repositorio distribuye el paquete de pruebas; no incluye el SDK, el proyecto de desarrollo, guardados ni configuraciones personales.
