@@ -1,3 +1,8 @@
+<!-- compatibility-proton-startup -->
+## Aviso de compatibilidad: Linux / Proton
+
+Se ha reportado un bloqueo antes del menu con la version0.1.7 en una prueba Steam/Proton. SML sin el vagon llega al menu, pero al anadir el vagon el arranque no termina. **No considerar esta version compatible con Proton por ahora; investigacion pendiente de registros completos.** No abrir partidas personales ni cambiar Proton u opciones de arranque a ciegas. La verificacion del anfitrion Windows no valida el cliente Linux.
+
 # Tsabs Passenger Wagon — pruebas
 
 Paquete experimental de un vagón de pasajeros para Satisfactory Steam.
