@@ -24,5 +24,5 @@ No usar partidas personales. Primero verificar el cargador en el menú, después
 ## Estado de verificación
 - Compilación, paquete y arranque del anfitrión Windows comprobados.
 - Las DLL y recursos de esta descarga son los mismos que los instalados y verificados en el anfitrión; se excluyen los símbolos de depuración.
-- **Linux mediante Proton, importación real del perfil SMM y multijugador con cliente remoto siguen pendientes de validación.** El perfil se ha comprobado estructuralmente contra el formato del gestor, no se presenta como una importación ya ejecutada.
+- **Perfil SMM:** importacion real confirmada por un informe de prueba en SMM3.1.0; SML3.12.0 sin el vagon llega al menu. **Linux/Proton con el vagon0.1.7:** bloqueo de arranque reportado, en investigacion. **Cliente multijugador:** aun no probado.
 - Este repositorio distribuye el paquete de pruebas; no incluye el SDK, el proyecto de desarrollo, guardados ni configuraciones personales.
