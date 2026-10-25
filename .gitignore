@@ -1,0 +1,8 @@
+Binaries/
+Intermediate/
+Saved/
+.vs/
+.test-bin/
+__pycache__/
+*.pdb
+*.sln

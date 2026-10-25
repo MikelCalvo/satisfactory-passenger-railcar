@@ -1,0 +1,30 @@
+#include "TsabsPassengerDescriptor.h"
+#include "TsabsPassengerRailcar.h"
+#include "FGBuildCategory.h"
+#include "Engine/Texture2D.h"
+#include "UObject/ConstructorHelpers.h"
+
+UTsabsPassengerDescriptor::UTsabsPassengerDescriptor()
+{
+    mVehicleClass = ATsabsPassengerRailcar::StaticClass();
+    static ConstructorHelpers::FClassFinder<UFGBuildCategory> Category(TEXT("/Game/FactoryGame/Interface/UI/InGame/BuildMenu/BuildCategories/BC_Vehicles"));
+    static ConstructorHelpers::FObjectFinder<UTexture2D> Icon(TEXT("/Game/FactoryGame/Buildable/Vehicle/Train/Wagon/UI/FreightCar_512.FreightCar_512"));
+    mCategory = Category.Class;
+    mSubCategories.Empty();
+    mMenuPriority = 0.0f;
+    mSmallIcon = Icon.Object;
+    mPersistentBigIcon = Icon.Object;
+}
+
+FText UTsabsPassengerDescriptor::GetItemNameInternal() const
+{
+    return NSLOCTEXT("TsabsPassengerWagon", "TestWagonName", "Vagón de pasajeros (prueba)");
+}
+FString UTsabsPassengerDescriptor::GetItemNameInternalAsString() const
+{
+    return GetItemNameInternal().ToString();
+}
+FText UTsabsPassengerDescriptor::GetItemDescriptionInternal() const
+{
+    return NSLOCTEXT("TsabsPassengerWagon", "TestWagonDescription", "Prototipo gratuito para pruebas. Una plaza piloto invisible, sin conducción ni inventario. Validación en partida pendiente.");
+}

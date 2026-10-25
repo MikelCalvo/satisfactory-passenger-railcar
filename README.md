@@ -1,28 +1,26 @@
-<!-- compatibility-proton-startup -->
-## Aviso de compatibilidad: Linux / Proton
+# Tsabs Passenger Wagon
 
-Se ha reportado un bloqueo antes del menu con la version0.1.7 en una prueba Steam/Proton. SML sin el vagon llega al menu, pero al anadir el vagon el arranque no termina. **No considerar esta version compatible con Proton por ahora; investigacion pendiente de registros completos.** No abrir partidas personales ni cambiar Proton u opciones de arranque a ciegas. La verificacion del anfitrion Windows no valida el cliente Linux.
+Vagón de pasajeros experimental para **Satisfactory Steam**. Código propio bajo **MIT**.
 
-# Tsabs Passenger Wagon — pruebas
+## Estado: v0.1.8 preliminar
 
-Paquete experimental de un vagón de pasajeros para Satisfactory Steam.
+- Una plaza técnica invisible por vagón; cámara exterior orbital, sin conducir el tren y sin inventario.
+- Subir/bajar exige velocidad absoluta **estrictamente inferior a30km/h**, también en reversa, además de las comprobaciones de autoridad, ocupación y salida nativa libre. No limita la velocidad del tren mientras se viaja.
+- Coste/desbloqueo de pruebas; no es una versión final de equilibrio o capacidad.
+- 018 añade el prerrequisito nativo FactoryDedicatedClient. En una prueba real Windows DX11 los errores de importación pasaron de454 a0 y se alcanzó el menú con SML. Las fuentes de cámara/HUD/controles/guardas no cambian respecto a017.
+- **Linux/Steam/Proton: corrección candidata, aún sin validación remota de018.**017 tenía un bloqueo de arranque reportado en Proton. No anunciarlo como resuelto hasta comprobar el equipo afectado. No cambiar simultáneamente Proton ni overrides.
+- Partida del amigo, multijugador, viaje con conductor humano/automático y múltiples plazas siguen pendientes de verificación.
 
-## Versión 0.1.7
-- Vagón independiente, sin conducción ni inventario para el pasajero.
-- Cámara exterior orbital y avisos de interacción con la tecla configurada.
-- Subir y bajar solo con velocidad absoluta inferior a **30 km/h**, en ambos sentidos y manteniendo la comprobación de salida libre.
-- Una plaza de prueba por vagón. No se ha validado todavía capacidad múltiple.
+## Instalar y probar
 
-## Descarga e instalación
-Usa el ZIP de **Releases**, no los botones automáticos «Source code».
-El paquete incluye `LEEME.txt`, un perfil generado para SMM3 que solicita **solo SML 3.12.0** y la carpeta del vagón privado.
-**No se importa el ZIP completo en Mod Manager.** Descomprime y sigue las fases del LEEME.
+Descarga el asset **TsabsPassengerWagon-0.1.8-Steam-Proton-Publico.zip** de la release v0.1.8, no el archivo automático Source code si solo quieres jugar. Requiere juego Steam1.2.4.1/CL513885 y SML3.12.0. Las instrucciones escalonadas están en LEEME.txt del ZIP. SML no se incluye.
 
-Entorno de prueba: Satisfactory Steam **1.2.4.1 / CL513885**, **SML 3.12.0**.
-No usar partidas personales. Primero verificar el cargador en el menú, después el vagón y solo entonces la conexión a la partida de pruebas.
+Con el juego cerrado, conserva fuera de FactoryGame/Mods una copia del vagón anterior y reemplaza su carpeta por VAGON/TsabsPassengerWagon del ZIP. No mezcles DLLs/versiones. Mantén SML en su carpeta independiente. Si falla el nuevo arranque, retira solo el vagón y conserva el log de ese intento antes de volver a abrir el juego.
 
-## Estado de verificación
-- Compilación, paquete y arranque del anfitrión Windows comprobados.
-- Las DLL y recursos de esta descarga son los mismos que los instalados y verificados en el anfitrión; se excluyen los símbolos de depuración.
-- **Perfil SMM:** importacion real confirmada por un informe de prueba en SMM3.1.0; SML3.12.0 sin el vagon llega al menu. **Linux/Proton con el vagon0.1.7:** bloqueo de arranque reportado, en investigacion. **Cliente multijugador:** aun no probado.
-- Este repositorio distribuye el paquete de pruebas; no incluye el SDK, el proyecto de desarrollo, guardados ni configuraciones personales.
+Primera comprobación: **solo llegar al menú**, sin abrir partidas personales. En el cliente afectado no iniciar aún la prueba multijugador. Las pruebas de juego se hacen exclusivamente en tsabsrailtest, con copia de seguridad.
+
+## Código abierto y compilación
+
+Este repositorio contiene el código propio completo de esta versión, descriptor, tests y documentación. Ver [BUILDING.md](BUILDING.md), [LICENSE](LICENSE), [NOTICES.md](NOTICES.md) y [CHANGELOG.md](CHANGELOG.md). El tag v0.1.8 corresponde al binario de esta release. El manifiesto SOURCE-MANIFEST.json permite contrastar los archivos propios con el paquete compilado.
+
+El SDK, Unreal Engine, Wwise, SML y los datos/recursos de Satisfactory se obtienen por separado de sus distribuidores; **no se redistribuyen ni relicencian aquí**. No se incluyen guardados, configuración personal, diagnósticos privados ni símbolos PDB.
