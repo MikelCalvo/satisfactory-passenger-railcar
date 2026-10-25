@@ -125,7 +125,7 @@ class ReleasePackagerTests(unittest.TestCase):
                 st_mode=info.st_mode, st_dev=info.st_dev, st_ino=info.st_ino,
                 st_size=info.st_size, st_mtime_ns=info.st_mtime_ns,
                 st_ctime_ns=info.st_ctime_ns + (100 if descriptor else 0),
-                st_birthtime_ns=info.st_ctime_ns,
+                st_birthtime_ns=getattr(info, "st_birthtime_ns", info.st_ctime_ns),
                 st_file_attributes=getattr(info, "st_file_attributes", 0))
 
         with patch.object(self.api.sys, "platform", "win32"), \
