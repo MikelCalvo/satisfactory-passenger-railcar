@@ -1,0 +1,45 @@
+name: Packager Windows metadata diagnostic
+on:
+  push:
+permissions:
+  contents: read
+jobs:
+  metadata:
+    runs-on: windows-2022
+    timeout-minutes: 5
+    defaults:
+      run:
+        shell: python {0}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - name: Compare path and descriptor metadata on owned files
+        run: |
+          import importlib.util
+          import json
+          import os
+          from pathlib import Path
+          import tempfile
+          spec = importlib.util.spec_from_file_location("packager", "tools/package_release.py")
+          tool = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(tool)
+          keys = ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns", "st_birthtime_ns")
+          observed = []
+          with tempfile.TemporaryDirectory(prefix="railcar-metadata-") as scratch:
+              for index in range(100):
+                  path = Path(scratch) / f"owned-{index}"
+                  path.write_bytes(b"synthetic diagnostic only")
+                  before = tool._metadata(path)
+                  fd = os.open(path, os.O_RDONLY | os.O_BINARY)
+                  try:
+                      opened = os.fstat(fd)
+                      after = tool._metadata(path)
+                      if tool._stamp(before) != tool._stamp(opened):
+                          observed.append({"iteration": index, "different": [key for key in keys if getattr(before, key, None) != getattr(opened, key, None)], "path": {key: getattr(before, key, None) for key in keys}, "fd": {key: getattr(opened, key, None) for key in keys}, "path_after": {key: getattr(after, key, None) for key in keys}})
+                  finally:
+                      os.close(fd)
+          print(json.dumps({"samples": 100, "mismatch_count": len(observed), "first_five": observed[:5]}, indent=2))
