@@ -19,7 +19,7 @@ Para los comandos siguientes abre una consola Windows CMD en la raíz del Starte
 ```bat
 set "UE_ROOT=C:\Ruta\Al\UnrealEngine"
 call "%UE_ROOT%\Engine\Build\BatchFiles\Build.bat" FactoryEditor Win64 Development "%CD%\FactoryGame.uproject" -WaitMutex -NoHotReloadFromIDE
-call "%UE_ROOT%\Engine\Build\BatchFiles\RunUAT.bat" -ScriptsForProject="%CD%\FactoryGame.uproject" PackagePlugin -Project="%CD%\FactoryGame.uproject" -DLCName=TsabsPassengerWagon -ClientConfig=Shipping -Build -Cook -SkipSaveAssetRegistry -AdditionalCookerOptions=-NoVerifyAssetRegistry -pak -stage -NoCompileEditor -Zip -TargetPlatforms=Windows -GameClientTarget=FactoryGameSteam -NoInstalledEngine -UTF8Output
+call "%UE_ROOT%\Engine\Build\BatchFiles\RunUAT.bat" -ScriptsForProject="%CD%\FactoryGame.uproject" PackagePlugin -project="%CD%\FactoryGame.uproject" -DLCName=TsabsPassengerWagon -Target=FactoryGameSteam -platform=Win64 -clientconfig=Shipping -build -installed -nocompileeditor -utf8output -verbose -timestamps -nop4 -UbtArgs="-MaxParallelActions=4 -NoUBA -NoXGE -NoFASTBuild"
 ```
 
 Es el mismo objetivo/flujo UAT usado para el paquete publicado, con rutas parametrizadas. Alpakit también puede empaquetar el plugin para Windows/Steam. No actives despliegue automático al juego; revisa el ZIP generado en `Saved/ArchivedPlugins/TsabsPassengerWagon` antes de instalar. No se promete igualdad bit a bit entre compilaciones realizadas con toolchains/rutas diferentes.
@@ -61,4 +61,8 @@ Las pruebas Unreal están en `Source/TsabsPassengerWagon/Private/Tests`. Desde l
 
 Revisa el informe exportado y sus contadores, no solo el código de salida del editor. La automatización usada para018 dio27 casos correctos (24 sin avisos +3 con avisos SDK/UI), cero fallos/no ejecutados. Algunas implementaciones nativas del Starter Project son stubs: estas pruebas no demuestran transiciones nativas ni replicación en el juego real.
 
-También se verificaron el cook/ZIP y la presencia del import real de la DLL FactoryDedicatedClient en Shipping. Se probó un arranque real Windows DX11 hasta el menú, con cero errores Streaming. El binario publicado 0.1.8 también llegó al menú en el [cliente Proton afectado](docs/PROTON-STARTUP.md); siguen pendientes las pruebas dentro de una partida y el multijugador. Los logs privados no forman parte de esta distribución.
+También se verificaron el cook/ZIP y la presencia del import real de la DLL FactoryDedicatedClient en Shipping. Se probó un arranque real Windows DX11 hasta el menú, con cero errores Streaming. El binario publicado 0.1.8 también llegó al menú en el [cliente Proton afectado](docs/PROTON-STARTUP.md); posteriormente ambos probadores dieron el visto bueno multijugador. El nuevo aviso de 0.1.9 todavía requiere una comprobación específica de cliente remoto. Los logs privados no forman parte de esta distribución.
+
+## Verificación local 0.1.9
+
+27 casos del editor correctos(24 sin avisos+3 SDK/UI),7 checks de paquete, política MSVC en2modos y arranque real Windows DX11 al menú. La fixture comprueba crucero sin aviso, evento de rechazo, duración3s/reinicio y limpieza al reducir velocidad. Las flags RPC no demuestran entrega de red real. Los resultados GCC/Clang/Proton de PR#1 son del autor; no se configuró CI para esa PR.

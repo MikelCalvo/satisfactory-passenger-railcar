@@ -163,11 +163,22 @@ bool UTsabsPassengerHUD::ApplyInteractionText(const FText& Text)
     return true;
 }
 
+void UTsabsPassengerHUD::NotifyExitSpeedRejected()
+{
+    ATsabsPassengerAnchor* Anchor = PassengerAnchor.Get();
+    // A delayed rejection cannot replace another pawn's HUD or outlive slowing.
+    if (!IsValid(Anchor) || GetOwningPlayerPawn() != Anchor || Anchor->IsWithinPassengerAccessSpeedLimit()) return;
+    ExitSpeedWarningSecondsRemaining = 3.0f;
+    RefreshExitHint(true);
+}
+
 void UTsabsPassengerHUD::RefreshExitHint(bool bForce)
 {
     ATsabsPassengerAnchor* Anchor = PassengerAnchor.Get();
     if (!IsValid(Anchor) || !IsValid(InteractionWidget)) return;
-    const FText Prompt = FormatExitPrompt(ResolveLeaveKey(), Anchor->IsWithinPassengerAccessSpeedLimit());
+    // Availability is enforced by the server; merely cruising is not an exit attempt.
+    if (Anchor->IsWithinPassengerAccessSpeedLimit()) ExitSpeedWarningSecondsRemaining = 0.0f;
+    const FText Prompt = FormatExitPrompt(ResolveLeaveKey(), ExitSpeedWarningSecondsRemaining <= 0.0f);
     if (!bForce && bHasPrompt && LastPrompt.EqualTo(Prompt)) return;
     if (ApplyInteractionText(Prompt))
     {
@@ -184,6 +195,8 @@ void UTsabsPassengerHUD::NativeTick(const FGeometry& Geometry, float DeltaTime)
         RemoveFromParent();
         return;
     }
+    if (FMath::IsFinite(DeltaTime) && DeltaTime > 0.0f)
+        ExitSpeedWarningSecondsRemaining = FMath::Max(0.0f, ExitSpeedWarningSecondsRemaining - DeltaTime);
     RefreshExitHint();
 }
 

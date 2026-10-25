@@ -5,9 +5,9 @@
 **Viaja en el tren. Deja que la locomotora se encargue de conducir.**  
 Mod no oficial de vagón de pasajeros para **Satisfactory en Steam**, creado por **Tsabs**, con código abierto bajo **MIT**.
 
-**[Descargar 0.1.8](https://github.com/Tsavyh/satisfactory-passenger-railcar/releases/download/v0.1.8/TsabsPassengerWagon-0.1.8-Steam-Proton-Publico.zip)** · [English](README.md) · [Compilar el código](BUILDING.es.md) · [Comunicar un problema](https://github.com/Tsavyh/satisfactory-passenger-railcar/issues/new/choose)
+**[Descargar 0.1.9](https://github.com/Tsavyh/satisfactory-passenger-railcar/releases/download/v0.1.9/satisfactory-passenger-railcar-0.1.9-windows-steam.zip)** · [English](README.md) · [Compilar el código](BUILDING.es.md) · [Comunicar un problema](https://github.com/Tsavyh/satisfactory-passenger-railcar/issues/new/choose)
 
-> **Versión preliminar.** El arranque en Windows DX11 está verificado. **El menú también arrancó en un cliente con Proton 10.0-4; el juego dentro de una partida y el multijugador siguen sin validar.** Haz copia de los guardados y usa una partida de pruebas, no una partida personal.
+> **Versión preliminar.** Ambos probadores dan el **visto bueno multijugador de la 0.1.8** después de distintas pruebas; el cliente Proton también superó el arranque. **Falta confirmar en partida el nuevo aviso de la 0.1.9.** Haz backup y usa una partida de pruebas, no una personal.
 
 ## Qué ofrece
 
@@ -18,14 +18,20 @@ Mod no oficial de vagón de pasajeros para **Satisfactory en Steam**, creado por
 
 Durante las pruebas no tiene coste de construcción ni requisito de desbloqueo. El equilibrio final y la ampliación de plazas están pendientes.
 
+## Novedades de la 0.1.9
+
+El límite de velocidad ya **no aparece como advertencia permanente**: el aviso se muestra solo al intentar bajar y recibir un rechazo, durante **3 segundos**; después vuelve la indicación normal. Si el tren baja de 30 km/h, se limpia antes. Lo recibe únicamente el pasajero afectado. **Anfitrión y clientes deben actualizar.**
+
+La PR #1 aporta pruebas para Linux y un informe acotado de Proton sin cambiar la política de ejecución.
+
 ## Instalación
 
 **Entorno objetivo:** Satisfactory Steam **1.2.4.1 / CL 513885** y **SML 3.12.0**. Otras versiones y tiendas no están verificadas.
 
 1. Instala SML mediante Satisfactory Mod Manager. Si ya arranca SML solo, conserva esa configuración.
-2. Cierra el juego y descarga **[el ZIP instalable](https://github.com/Tsavyh/satisfactory-passenger-railcar/releases/download/v0.1.8/TsabsPassengerWagon-0.1.8-Steam-Proton-Publico.zip)**. Los archivos **Source code** de GitHub no sirven para instalar directamente.
+2. Cierra el juego y descarga **[el ZIP instalable](https://github.com/Tsavyh/satisfactory-passenger-railcar/releases/download/v0.1.9/satisfactory-passenger-railcar-0.1.9-windows-steam.zip)**. Los archivos **Source code** de GitHub no sirven para instalar directamente.
 3. Conserva la carpeta anterior del vagón **fuera** de `FactoryGame/Mods` y copia `VAGON/TsabsPassengerWagon` del ZIP a `FactoryGame/Mods`. No mezcles versiones ni reemplaces la carpeta de SML.
-4. **Primera prueba: llegar únicamente al menú** y comprobar que aparece la 0.1.8. No abras todavía una partida personal. En Proton, mantén la versión y las opciones de arranque actuales durante esta comprobación.
+4. **Primera prueba: llegar únicamente al menú** y comprobar que aparece la 0.1.9. No abras todavía una partida personal. En Proton, mantén la versión y las opciones de arranque actuales durante esta comprobación.
 
 La ruta final debe ser:
 
@@ -33,7 +39,7 @@ La ruta final debe ser:
 FactoryGame/Mods/TsabsPassengerWagon/TsabsPassengerWagon.uplugin
 ```
 
-El ZIP incluye instrucciones, licencia MIT, un perfil opcional de SML solo y un manifiesto; no incluye SML, SDK ni datos personales. El checksum está en `SHA256SUMS-Publico.txt` de la release.
+El ZIP incluye instrucciones, licencia MIT, un perfil opcional de SML solo y un manifiesto; no incluye SML, SDK ni datos personales. El checksum está en `SHA256SUMS.txt` de la release.
 
 ## Qué está probado y qué falta
 
@@ -41,17 +47,17 @@ El ZIP incluye instrucciones, licencia MIT, un perfil opcional de SML solo y un 
 | :--- | :--- |
 | Arranque Windows / Steam | Menú verificado en una prueba real de 0.1.8 con DX11 |
 | Linux / Steam / Proton | La 0.1.8 llegó al menú en el cliente afectado con Arch Linux / Proton 10.0-4; [informe y límites](docs/PROTON-STARTUP.md) |
-| Multijugador con cliente remoto | Pendiente |
+| Multijugador con cliente remoto | Visto bueno humano de dos probadores en 0.1.8; falta comprobar el nuevo aviso de 0.1.9 |
 | Viaje con otro jugador conduciendo y con piloto automático | Son pruebas separadas todavía pendientes |
 | Servidor dedicado y otras tiendas | Sin versión validada |
 
-La corrección 0.1.8 eliminó una cascada de **454 errores de carga** en el caso reproducido en Windows. El cliente Proton afectado también llegó después al menú con cero errores de carga; falta validar el juego dentro de una partida y el multijugador. [Cambios de versión](CHANGELOG.md).
+La corrección 0.1.8 eliminó una cascada de **454 errores de carga** en el caso reproducido en Windows. El cliente Proton afectado también llegó después al menú con cero errores de carga; posteriormente ambos probadores dieron el visto bueno multijugador. No es una certificación exhaustiva de todas las plataformas o escenarios. [Cambios de versión](CHANGELOG.md).
 
 Si vuelve a fallar, conserva el log de ese intento antes de arrancar otra vez y retira solo el vagón para recuperar SML solo. No publiques identificadores de cuentas, parámetros de autenticación ni rutas personales. Puedes usar el [formulario de problemas](https://github.com/Tsavyh/satisfactory-passenger-railcar/issues/new?template=bug_report.yml).
 
 ## Código abierto
 
-Fuentes propias bajo **[MIT](LICENSE)**, con [instrucciones de compilación](BUILDING.es.md), pruebas y [límites de recursos de terceros](NOTICES.md). El [tag v0.1.8](https://github.com/Tsavyh/satisfactory-passenger-railcar/tree/v0.1.8) conserva las fuentes del binario publicado. Este cambio de presentación no modifica el código de ejecución, los tags ni las descargas.
+Fuentes propias bajo **[MIT](LICENSE)**, con [instrucciones de compilación](BUILDING.es.md), pruebas y [límites de recursos de terceros](NOTICES.md). El [tag v0.1.9](https://github.com/Tsavyh/satisfactory-passenger-railcar/tree/v0.1.9) conserva las fuentes del binario publicado. La 0.1.9 incorpora el aviso temporal y la [PR #1](https://github.com/Tsavyh/satisfactory-passenger-railcar/pull/1) de [MikelCalvo](https://github.com/MikelCalvo). [Colaboradores](CONTRIBUTORS.md).
 
 El identificador interno **`TsabsPassengerWagon`** se mantiene por compatibilidad. El nombre público es **Satisfactory Passenger Railcar**. El SDK, Engine y recursos del juego se obtienen por separado.
 

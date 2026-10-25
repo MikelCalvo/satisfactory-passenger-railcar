@@ -245,7 +245,22 @@ bool ATsabsPassengerAnchor::DriverLeave(bool bKeepDriving)
 void ATsabsPassengerAnchor::Server_DriverLeave_Implementation()
 {
     // Never trust an earlier client-side speed/occupancy check. Recheck now on server.
-    if (HasAuthority()) DriverLeave(false);
+    if (!HasAuthority() || IsTemplate()) return;
+    if (!IsWithinPassengerAccessSpeedLimit())
+    {
+        const APlayerController* PC = Cast<APlayerController>(GetController());
+        if (IsValid(PC) && PC->GetPawn() == this) Client_NotifyExitSpeedRejected();
+        return;
+    }
+    DriverLeave(false);
+}
+
+void ATsabsPassengerAnchor::Client_NotifyExitSpeedRejected_Implementation()
+{
+    const APlayerController* PC = Cast<APlayerController>(GetController());
+    if (!IsValid(PC) || !PC->IsLocalController() || PC->GetPawn() != this) return;
+    if (PassengerHUD.IsValid() && PassengerHUD->GetPassengerAnchor() == this)
+        PassengerHUD->NotifyExitSpeedRejected();
 }
 
 void ATsabsPassengerAnchor::CalcCamera(float DeltaTime, FMinimalViewInfo& OutResult)

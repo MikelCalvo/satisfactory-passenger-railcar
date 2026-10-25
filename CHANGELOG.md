@@ -1,10 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.1.9 — Feedback when you ask to leave
 
-- Add a Linux Bash runner for the standalone C++20 policy checks, with GCC/Clang selection, precise/fast-math modes and failure/cleanup tests.
-- Preserve the existing 26 policy cases with fixed IEEE-754 boundary/NaN/infinity inputs so Clang fast-math does not rewrite their construction. Runtime policy code is unchanged.
-- Record successful menu startup of the published 0.1.8 binary on the affected Arch Linux / Proton 10.0-4 client. Gameplay and multiplayer remain separate unverified layers.
+- Replace the permanent speed restriction warning with a **3-second, owning-passenger notice after a server-rejected Leave attempt**. Clear sooner when speed becomes permitted; no automatic exit, relaxed speed limit or driving-control change.
+- Preserve authority, occupancy, safe-exit geometry, camera, effective bindings and the native startup prerequisite.
+- Merge [PR #1](https://github.com/Tsavyh/satisfactory-passenger-railcar/pull/1) by **MikelCalvo**: Linux Bash policy runner, failure/cleanup tests, IEEE-754 fixture inputs for Clang fast-math, English/Spanish developer guidance and a scoped Proton startup report.
+- Record the subsequent **user-reported two-player multiplayer approval of0.1.8** separately from that menu-only report. The new0.1.9 notice has editor/package/startup verification, not yet a real remote-client acceptance.
+- Keep public branding and own-source **MIT** code. Both host and clients should update to0.1.9.
 
 ## 0.1.8 — Startup fix preview
 

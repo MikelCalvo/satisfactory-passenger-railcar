@@ -51,6 +51,9 @@ protected:
     virtual void AddInputBindings(UInputComponent* InInputComponent) override;
 
 private:
+    /** Owning passenger only; a denied Leave request is never broadcast. */
+    UFUNCTION(Client, Reliable)
+    void Client_NotifyExitSpeedRejected();
     void RemovePassengerHUD();
     TWeakObjectPtr<class UTsabsPassengerHUD> PassengerHUD;
     // Bounded diagnostics: at most one line per exit outcome for each pilot.

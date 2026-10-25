@@ -27,7 +27,7 @@ Open Windows CMD in the Starter Project root and set `UE_ROOT` to your installed
 ```bat
 set "UE_ROOT=C:\Path\To\UnrealEngine"
 call "%UE_ROOT%\Engine\Build\BatchFiles\Build.bat" FactoryEditor Win64 Development "%CD%\FactoryGame.uproject" -WaitMutex -NoHotReloadFromIDE
-call "%UE_ROOT%\Engine\Build\BatchFiles\RunUAT.bat" -ScriptsForProject="%CD%\FactoryGame.uproject" PackagePlugin -Project="%CD%\FactoryGame.uproject" -DLCName=TsabsPassengerWagon -ClientConfig=Shipping -Build -Cook -SkipSaveAssetRegistry -AdditionalCookerOptions=-NoVerifyAssetRegistry -pak -stage -NoCompileEditor -Zip -TargetPlatforms=Windows -GameClientTarget=FactoryGameSteam -NoInstalledEngine -UTF8Output
+call "%UE_ROOT%\Engine\Build\BatchFiles\RunUAT.bat" -ScriptsForProject="%CD%\FactoryGame.uproject" PackagePlugin -project="%CD%\FactoryGame.uproject" -DLCName=TsabsPassengerWagon -Target=FactoryGameSteam -platform=Win64 -clientconfig=Shipping -build -installed -nocompileeditor -utf8output -verbose -timestamps -nop4 -UbtArgs="-MaxParallelActions=4 -NoUBA -NoXGE -NoFASTBuild"
 ```
 
 These targets and packaging arguments were exercised for the published build, with local paths substituted. Inspect `Saved/ArchivedPlugins/TsabsPassengerWagon` before installation. Leave automatic deployment disabled. Different paths/toolchains may not produce byte-identical binaries.
@@ -69,4 +69,8 @@ From the Starter Project root:
 
 Inspect the exported report, not only the process exit code. The 0.1.8 code passed 27 cases: 24 without warnings plus 3 with SDK/UI warnings, no failures or skipped cases. Starter Project native stubs do not prove actual in-game behavior or replication.
 
-The package also passed checks for the retained FactoryDedicatedClient DLL import. A real Windows DX11 startup reached the menu with zero streaming errors. The published 0.1.8 binary also passed a [Proton menu-startup check](docs/PROTON-STARTUP.md) on the affected Linux client; gameplay and multiplayer still need separate runtime validation. No private logs are published.
+The package also passed checks for the retained FactoryDedicatedClient DLL import. A real Windows DX11 startup reached the menu with zero streaming errors. The published 0.1.8 binary also passed a [Proton menu-startup check](docs/PROTON-STARTUP.md) on the affected Linux client; subsequent multiplayer acceptance was separately reported by two testers. The new 0.1.9 notice still needs an in-game remote-client check. No private logs are published.
+
+## 0.1.9 local verification
+
+The 27 editor cases (24 without warnings plus3 SDK/UI-warning cases),7 package checks, MSVC policy checks in both modes and a real Windows DX11 menu startup passed. The transient notice fixture covers idle cruising, rejected-attempt feedback,3-second expiry/retrigger and clearing when slowing. RPC flags are checked, not actual network delivery. GCC/Clang and Proton results in PR#1 are attributed to its contributor; no hosted CI was configured for that PR.

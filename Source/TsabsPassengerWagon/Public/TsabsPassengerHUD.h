@@ -18,6 +18,9 @@ public:
     UFUNCTION(BlueprintPure, Category="Passenger Interface")
     static FText FormatExitPrompt(const FText& LeaveKey, bool bWithinSpeedLimit);
     ATsabsPassengerAnchor* GetPassengerAnchor() const;
+    /** Event-driven local feedback, never an availability/exit authority decision. */
+    UFUNCTION()
+    void NotifyExitSpeedRejected();
 protected:
     virtual void NativeOnInitialized() override;
     virtual void NativeConstruct() override;
@@ -38,5 +41,6 @@ private:
     FText LastPrompt;
     bool bHasPrompt = false;
     bool bReportedMissingContract = false;
+    float ExitSpeedWarningSecondsRemaining = 0.0f;
 };
 
