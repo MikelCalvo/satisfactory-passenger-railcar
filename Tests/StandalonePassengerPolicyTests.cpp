@@ -1,6 +1,5 @@
 #include "PassengerAccessPolicy.h"
 #include <bit>
-#include <cmath>
 #include <iostream>
 #include <limits>
 #include <vector>
@@ -8,9 +7,10 @@
 struct Case { const char* Name; float Speed; bool ExpectedAllowed; };
 int main()
 {
-    constexpr double LimitCms = 30.0 * 100000.0 / 3600.0;
-    const float Below = static_cast<float>(LimitCms);
-    const float Above = std::nextafter(Below, std::numeric_limits<float>::infinity());
+    // Fix IEEE-754 input bits independently of floating-point optimizations.
+    // These are the adjacent float32 values bracketing exactly 30 km/h.
+    constexpr float Below = std::bit_cast<float>(0x44505555u);
+    constexpr float Above = std::bit_cast<float>(0x44505556u);
     const std::vector<Case> Cases{
         {"zero", 0.0f, true}, {"negative zero", -0.0f, true},
         {"slow forward", 1.0f, true}, {"slow reverse", -1.0f, true},
@@ -27,10 +27,10 @@ int main()
         {"32.4 km/h", 900.0f, false}, {"reverse 32.4 km/h", -900.0f, false},
         {"largest finite", std::numeric_limits<float>::max(), false},
         {"negative largest finite", -std::numeric_limits<float>::max(), false},
-        {"NaN", std::numeric_limits<float>::quiet_NaN(), false},
+        {"NaN", std::bit_cast<float>(0x7fc00000u), false},
         {"negative NaN", std::bit_cast<float>(0xffc00000u), false},
-        {"positive infinity", std::numeric_limits<float>::infinity(), false},
-        {"negative infinity", -std::numeric_limits<float>::infinity(), false}
+        {"positive infinity", std::bit_cast<float>(0x7f800000u), false},
+        {"negative infinity", std::bit_cast<float>(0xff800000u), false}
     };
     int Failures = 0;
     for (const auto& C : Cases)
