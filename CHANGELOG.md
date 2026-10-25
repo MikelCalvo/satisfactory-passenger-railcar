@@ -1,14 +1,19 @@
-# Cambios
+# Changelog
 
-## 0.1.8 — preliminar
+## 0.1.8 — Startup fix preview
 
-- Declara FactoryDedicatedClient como dependencia privada y referencia su clase nativa FGAbstractServerWidget para retener el import de la DLL antes de los assets Blueprint transitivos.
-- Corrige la cascada de454 errores de importación reproducida en Windows DX11 con017: nuevo arranque018 con0 errores, SML y menú confirmados.
-- No altera cámara, HUD, bindings, límite estricto<30km/h ni guardas de autoridad/ocupación/salida.
-- Primera actualización publicada con código propio completo, pruebas, instrucciones y licenciaMIT aprobada por el titular.
-- **El bloqueo de arranque reportado en Proton requiere validación de018 en el equipo afectado.** No se afirma resuelto ni se ha probado multijugador.
+- Explicitly retains the native `FactoryDedicatedClient` prerequisite through the `FGAbstractServerWidget` class reference.
+- In a reproduced Windows DX11 startup, streaming errors fell from **454 to 0** and SML/the menu initialized.
+- Leaves camera, HUD, effective bindings, authority/occupancy/safe-exit guards and the strict **below 30 km/h** access policy unchanged.
+- First release with the project's complete own-source code, tests and build instructions under **MIT**.
+- **Proton:** candidate fix; the affected client's startup block is not yet verified as resolved. Multiplayer remains unverified.
 
-## 0.1.7
+### Presentation refresh (no new binary)
 
-- Límite de acceso<30km/h y carga del HUD diferida a su instancia local para evitar carga UI/Niagara desde su CDO.
-- Distribución binaria anterior, con bloqueo reportado en Proton. Se conserva como versión histórica.
+The public project is now **Satisfactory Passenger Railcar**, with English/Spanish documentation and original railway-map cover artwork. The internal plugin identifier, release tags, code and binary assets are unchanged.
+
+## 0.1.7 — Historical preview
+
+- Deferred local HUD asset loading to avoid loading broad UI/Niagara assets from the native HUD constructor.
+- Introduced the current below-30-km/h access policy.
+- A startup block was reported on Proton; keep that compatibility warning when referring to this historical version.
