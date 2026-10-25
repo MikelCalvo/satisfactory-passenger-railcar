@@ -59,6 +59,19 @@ bits rather than arithmetic or infinity-valued library calls that Clang may
 transform under those options. These are host policy/runner checks, not a build
 of the Unreal plugin.
 
+## Offline release ZIP verification
+
+With Python 3.12, check a Windows Steam public wrapper without extracting,
+installing or executing it:
+
+```sh
+python -B tools/verify_release.py satisfactory-passenger-railcar-0.1.9-windows-steam.zip --expected-version 0.1.9
+```
+
+See [release verification](docs/RELEASE-VERIFICATION.md) for the optional external
+SHA-256, exact accepted layout, tests and limits. A pass is package verification,
+not game-load, compatibility, malware or private-data certification.
+
 ## Unreal automation
 
 From the Starter Project root:

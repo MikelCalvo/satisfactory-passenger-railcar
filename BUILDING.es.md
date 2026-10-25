@@ -51,6 +51,19 @@ IEEE-754 fijos para que Clang no transforme su generación con fast-math.
 Son pruebas de políticas y del ejecutor en el host, no una compilación del
 plugin Unreal.
 
+## Verificación offline del ZIP
+
+Con Python 3.12, comprueba un contenedor público Windows Steam sin extraer,
+instalar ni ejecutar su contenido:
+
+```sh
+python -B tools/verify_release.py satisfactory-passenger-railcar-0.1.9-windows-steam.zip --expected-version 0.1.9
+```
+
+Consulta [verificación de paquetes](docs/RELEASE-VERIFICATION.es.md) para la suma
+SHA-256 externa opcional, estructura exacta, pruebas y límites. No certifica
+carga del juego, compatibilidad, ausencia de malware ni de datos privados.
+
 ## Pruebas en editor y límites
 
 Las pruebas Unreal están en `Source/TsabsPassengerWagon/Private/Tests`. Desde la raíz del Starter Project:
