@@ -9,6 +9,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 import zipfile
@@ -112,6 +113,45 @@ class ReleasePackagerTests(unittest.TestCase):
         after = {str(p.relative_to(self.plugin)): p.read_bytes()
                  for p in self.plugin.rglob("*") if p.is_file()}
         self.assertEqual(before, after)
+
+    def test_windows_stat_ctime_disagreement_accepts_unchanged_payloads(self):
+        self.require_api()
+        metadata = self.api._metadata
+        fstat = self.api.os.fstat
+
+        def windows_info(info, descriptor=False):
+            # Model CPython 3.12's path/fd ctime mismatch; birthtime is stable.
+            return SimpleNamespace(
+                st_mode=info.st_mode, st_dev=info.st_dev, st_ino=info.st_ino,
+                st_size=info.st_size, st_mtime_ns=info.st_mtime_ns,
+                st_ctime_ns=info.st_ctime_ns + (100 if descriptor else 0),
+                st_birthtime_ns=info.st_ctime_ns,
+                st_file_attributes=getattr(info, "st_file_attributes", 0))
+
+        with patch.object(self.api.sys, "platform", "win32"), \
+             patch.object(self.api, "_metadata", side_effect=lambda *a, **k: windows_info(metadata(*a, **k))), \
+             patch.object(self.api.os, "fstat", side_effect=lambda fd: windows_info(fstat(fd), True)):
+            result = self.build()
+        self.api.verifier.verify_release(result, VERSION)
+        with zipfile.ZipFile(result) as archive:
+            for name in SIX:
+                self.assertEqual(archive.read(name), payloads()[name])
+
+    def test_platform_stamp_retains_identity_and_change_guards(self):
+        self.require_api()
+        fields = dict(st_dev=1, st_ino=2, st_size=3, st_mtime_ns=4,
+                      st_ctime_ns=5, st_birthtime_ns=6)
+        before = SimpleNamespace(**fields)
+        ctime_only = SimpleNamespace(**(fields | {"st_ctime_ns": 7}))
+        with patch.object(self.api.sys, "platform", "win32"):
+            expected = self.api._stamp(before)
+            self.assertEqual(expected, self.api._stamp(ctime_only))
+            for field in ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_birthtime_ns"):
+                with self.subTest(field=field):
+                    changed = SimpleNamespace(**(fields | {field: fields[field] + 1}))
+                    self.assertNotEqual(expected, self.api._stamp(changed))
+        with patch.object(self.api.sys, "platform", "linux"):
+            self.assertNotEqual(self.api._stamp(before), self.api._stamp(ctime_only))
 
     def test_deterministic_same_toolchain(self):
         self.require_api()

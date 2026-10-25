@@ -61,7 +61,10 @@ def _linked(info):
 
 
 def _stamp(info):
-    return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+    # CPython 3.12 on Windows reports creation time via lstat's ctime but
+    # change time via fstat's ctime. Birth time agrees across both APIs.
+    timestamp = info.st_birthtime_ns if sys.platform == "win32" else info.st_ctime_ns
+    return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, timestamp)
 
 
 def _open_input(path, expected):
