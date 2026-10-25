@@ -107,6 +107,31 @@ python -B -m unittest discover -s Tests -p test_release_verifier.py -v
 The verifier tests create small,
 explicitly **synthetic** PE/import/ZIP fixtures, including adversarial mutations;
 they do not rebuild or distribute a mod binary. Existing host-policy tests also
-need their documented Bash/C++ environment on Linux. This verifier was exercised
-on Linux with Python 3.12 against the real 0.1.9 public wrapper and the checksum
-above; Windows execution and CI integration are separate follow-up work.
+need their documented Bash/C++ environment on Linux. The offline verifier was
+exercised on Linux against the real 0.1.9 wrapper and the checksum above.
+
+## Hosted package CI
+
+[Release package verification](../.github/workflows/package-verification.yml)
+runs on pushes, pull requests and manual dispatch:
+
+- Four Python 3.12 jobs run only `test_release_verifier.py`: Ubuntu 24.04 and
+  Windows Server 2022, each with `PYTHONOPTIMIZE=0` and `1`. This does not select
+  the POSIX-only Bash runner tests or replace the separate standalone policy CI.
+- One Ubuntu job downloads the fixed public v0.1.9 wrapper into a temporary
+  runner directory, enforces a 128 MiB download cap, and calls the verifier with
+  the expected version and SHA-256 above. Network IO has a 30-second timeout;
+  child checks are limited to 120 seconds and jobs to ten minutes. The ZIP is
+  never extracted or executed, and the temporary directory is removed.
+
+All jobs use GitHub-hosted runners, read-only repository permission and
+SHA-pinned actions without persisted checkout credentials. No secrets, caches,
+release publication or deployment are involved.
+
+The public download is a regression fixture, not verification of a future
+unpublished release. If the asset is unavailable or its bytes change, the job
+fails; do not bypass the checksum. Updating the fixture requires deliberate
+review of its fixed URL, expected version and independently verified SHA-256.
+Before publishing a new package, still run the offline command on that exact ZIP.
+A green workflow retains the package-only limits above and does not certify
+Windows loading, game startup or multiplayer.

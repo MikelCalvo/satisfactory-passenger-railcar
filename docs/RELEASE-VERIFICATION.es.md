@@ -110,6 +110,32 @@ python -B -m unittest discover -s Tests -p test_release_verifier.py -v
 Las pruebas generan fixtures
 pequeñas de PE/imports/ZIP **sintéticas**, incluidas mutaciones adversarias; no
 recompilan ni distribuyen un binario del mod. Las pruebas de políticas existentes
-también requieren su entorno Bash/C++ documentado en Linux. Este verificador se
-ha ejecutado en Linux con Python 3.12 contra el ZIP público real 0.1.9 y la suma
-anterior; la ejecución Windows y la integración CI quedan para trabajo separado.
+también requieren su entorno Bash/C++ documentado en Linux. El verificador offline
+se ha probado en Linux contra el ZIP real 0.1.9 y la suma anterior.
+
+## CI de paquetes alojada
+
+[Release package verification](../.github/workflows/package-verification.yml)
+se ejecuta en pushes, pull requests y manualmente:
+
+- Cuatro jobs con Python 3.12 ejecutan solo `test_release_verifier.py`: Ubuntu
+  24.04 y Windows Server 2022, con `PYTHONOPTIMIZE=0` y `1` en cada uno. No se
+  seleccionan las pruebas Bash exclusivas de POSIX ni se sustituye la CI separada
+  de políticas sin Engine.
+- Un job Ubuntu descarga el ZIP público fijo 0.1.9 a un directorio temporal del
+  runner, impone un máximo de descarga de 128 MiB y ejecuta el verificador con
+  la versión y SHA-256 anteriores. La E/S de red tiene un timeout de 30 segundos;
+  las comprobaciones hijas se limitan a 120 segundos y los jobs a diez minutos.
+  El ZIP nunca se extrae ni ejecuta y el directorio temporal se elimina.
+
+Todos usan runners de GitHub, permisos de solo lectura y acciones fijadas por
+SHA, sin conservar credenciales del checkout. No usan secretos ni cachés y no
+publican ni despliegan nada.
+
+La descarga pública es una fixture de regresión, no la verificación de una futura
+publicación aún no subida. Si el archivo no está disponible o cambian sus bytes,
+el job falla: no se debe omitir la suma. Actualizar la fixture requiere revisar
+su URL fija, versión esperada y SHA-256 contrastado por separado. Antes de publicar
+un paquete nuevo, sigue siendo necesario ejecutar el comando offline sobre ese
+ZIP exacto. Un workflow verde conserva los límites de paquete anteriores; no
+certifica carga Windows, arranque del juego ni multijugador.
