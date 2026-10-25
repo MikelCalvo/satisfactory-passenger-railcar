@@ -97,7 +97,14 @@ layouts may be refused until reviewed and explicitly supported.
 python3.12 -B -m unittest discover -s Tests -p 'test_*.py' -v
 ```
 
-On Windows use `python` instead of `python3.12`. The verifier tests create small,
+On Windows, select only the portable verifier suite (the Bash policy-runner
+tests in full discovery are Linux-only):
+
+```bat
+python -B -m unittest discover -s Tests -p test_release_verifier.py -v
+```
+
+The verifier tests create small,
 explicitly **synthetic** PE/import/ZIP fixtures, including adversarial mutations;
 they do not rebuild or distribute a mod binary. Existing host-policy tests also
 need their documented Bash/C++ environment on Linux. This verifier was exercised

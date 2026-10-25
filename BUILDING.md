@@ -32,6 +32,19 @@ call "%UE_ROOT%\Engine\Build\BatchFiles\RunUAT.bat" -ScriptsForProject="%CD%\Fac
 
 These targets and packaging arguments were exercised for the published build, with local paths substituted. Inspect `Saved/ArchivedPlugins/TsabsPassengerWagon` before installation. Leave automatic deployment disabled. Different paths/toolchains may not produce byte-identical binaries.
 
+## Offline release ZIP verification
+
+With Python 3.12, check a Windows Steam public wrapper without extracting,
+installing or executing it:
+
+```sh
+python -B tools/verify_release.py satisfactory-passenger-railcar-0.1.9-windows-steam.zip --expected-version 0.1.9
+```
+
+See [release verification](docs/RELEASE-VERIFICATION.md) for the optional external
+SHA-256, exact accepted layout, tests and limits. A pass is package verification,
+not game-load, compatibility, malware or private-data certification.
+
 ## Standalone checks
 
 In an x64 MSVC Native Tools CMD, from the plugin root:
@@ -58,19 +71,6 @@ compiler through the runner. The fast-math fixtures use fixed IEEE-754 input
 bits rather than arithmetic or infinity-valued library calls that Clang may
 transform under those options. These are host policy/runner checks, not a build
 of the Unreal plugin.
-
-## Offline release ZIP verification
-
-With Python 3.12, check a Windows Steam public wrapper without extracting,
-installing or executing it:
-
-```sh
-python -B tools/verify_release.py satisfactory-passenger-railcar-0.1.9-windows-steam.zip --expected-version 0.1.9
-```
-
-See [release verification](docs/RELEASE-VERIFICATION.md) for the optional external
-SHA-256, exact accepted layout, tests and limits. A pass is package verification,
-not game-load, compatibility, malware or private-data certification.
 
 ## Unreal automation
 

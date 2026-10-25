@@ -100,7 +100,14 @@ ser rechazados hasta una revisión y actualización explícita.
 python3.12 -B -m unittest discover -s Tests -p 'test_*.py' -v
 ```
 
-En Windows usa `python` en lugar de `python3.12`. Las pruebas generan fixtures
+En Windows selecciona solo la suite portable del verificador (las pruebas del
+ejecutor Bash incluidas en el descubrimiento completo son exclusivas de Linux):
+
+```bat
+python -B -m unittest discover -s Tests -p test_release_verifier.py -v
+```
+
+Las pruebas generan fixtures
 pequeñas de PE/imports/ZIP **sintéticas**, incluidas mutaciones adversarias; no
 recompilan ni distribuyen un binario del mod. Las pruebas de políticas existentes
 también requieren su entorno Bash/C++ documentado en Linux. Este verificador se
