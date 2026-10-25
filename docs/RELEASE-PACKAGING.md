@@ -81,3 +81,11 @@ Portable packager tests (synthetic inputs, not a rebuilt mod):
 python -B -m unittest discover -s Tests -p test_release_packager.py -v
 python -B -O -m unittest discover -s Tests -p test_release_packager.py -v
 ```
+
+The [package workflow](../.github/workflows/package-verification.yml) runs these
+alongside the verifier suite on Ubuntu 24.04 and Windows Server 2022, with Python
+3.12 at optimization levels 0 and 1. The reference-package job first authenticates
+and verifies the fixed public 0.1.9 ZIP, then rewraps only its six prebuilt plugin
+payloads with this tool. It verifies the generated ZIP/checksum and confirms that
+all six payload hashes are unchanged. Temporary packages are removed, not uploaded
+or published. This exercises packaging, not an Unreal build or game startup.

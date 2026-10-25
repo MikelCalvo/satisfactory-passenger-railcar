@@ -80,3 +80,11 @@ Pruebas portables del empaquetador (entradas sintéticas, no un mod recompilado)
 python -B -m unittest discover -s Tests -p test_release_packager.py -v
 python -B -O -m unittest discover -s Tests -p test_release_packager.py -v
 ```
+
+El [workflow de paquetes](../.github/workflows/package-verification.yml) ejecuta
+estas pruebas junto al verificador en Ubuntu 24.04 y Windows Server 2022, con
+Python 3.12 y optimización 0 y 1. El job de referencia autentica y verifica primero
+el ZIP público fijo 0.1.9, y vuelve a empaquetar solo sus seis archivos del plugin
+ya compilados. Comprueba el ZIP/checksum generado y los hashes idénticos de esos
+seis archivos. Los paquetes temporales se eliminan, no se suben ni publican.
+Esto prueba empaquetado, no compilación Unreal ni arranque del juego.
