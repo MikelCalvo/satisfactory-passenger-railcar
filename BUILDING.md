@@ -43,6 +43,22 @@ python Tests\test_native_prerequisite.py
 
 The policy script compiles/runs 26 checks with `/fp:precise` and again with `/fp:fast`, covering the strict 30 km/h boundary, reverse travel, NaN and infinity. The Python contract checks the native module dependency and retained class reference. Both were also executed from the exported source tree.
 
+On Linux with Bash and a GCC/Clang C++20 compiler:
+
+```sh
+CXX=clang++ bash Tests/run-policy-tests.sh
+CXX=g++ bash Tests/run-policy-tests.sh
+python3 -B -m unittest discover -s Tests -p 'test_*.py' -v
+```
+
+The Bash runner uses temporary build outputs and runs the same 26 cases in
+`-fno-fast-math` and `-ffast-math` modes. `CXX` selects one compiler executable
+(default: `c++`). Run the Python checks with the same `CXX` to exercise that
+compiler through the runner. The fast-math fixtures use fixed IEEE-754 input
+bits rather than arithmetic or infinity-valued library calls that Clang may
+transform under those options. These are host policy/runner checks, not a build
+of the Unreal plugin.
+
 ## Unreal automation
 
 From the Starter Project root:
@@ -53,4 +69,4 @@ From the Starter Project root:
 
 Inspect the exported report, not only the process exit code. The 0.1.8 code passed 27 cases: 24 without warnings plus 3 with SDK/UI warnings, no failures or skipped cases. Starter Project native stubs do not prove actual in-game behavior or replication.
 
-The package also passed checks for the retained FactoryDedicatedClient DLL import. A real Windows DX11 startup reached the menu with zero streaming errors. **Proton and multiplayer still need separate runtime validation.** No private logs are published.
+The package also passed checks for the retained FactoryDedicatedClient DLL import. A real Windows DX11 startup reached the menu with zero streaming errors. The published 0.1.8 binary also passed a [Proton menu-startup check](docs/PROTON-STARTUP.md) on the affected Linux client; gameplay and multiplayer still need separate runtime validation. No private logs are published.

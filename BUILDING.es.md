@@ -35,6 +35,22 @@ python Tests\test_native_prerequisite.py
 
 El primer script compila y ejecuta26 casos en `/fp:precise` y en `/fp:fast`, incluidos frontera30, reversa, NaN e infinitos. El segundo verifica la dependencia explícita y la referencia a la clase nativa que conserva el import de la DLL. No requieren SDK para esas dos comprobaciones.
 
+En Linux, con Bash y un compilador GCC/Clang con C++20:
+
+```sh
+CXX=clang++ bash Tests/run-policy-tests.sh
+CXX=g++ bash Tests/run-policy-tests.sh
+python3 -B -m unittest discover -s Tests -p 'test_*.py' -v
+```
+
+El ejecutor Bash usa archivos temporales y ejecuta los mismos 26 casos en
+`-fno-fast-math` y `-ffast-math`. `CXX` selecciona un ejecutable de compilador
+(por defecto, `c++`); conserva ese mismo `CXX` en las pruebas Python si quieres
+probar el ejecutor con ese compilador. Las entradas especiales usan bits
+IEEE-754 fijos para que Clang no transforme su generación con fast-math.
+Son pruebas de políticas y del ejecutor en el host, no una compilación del
+plugin Unreal.
+
 ## Pruebas en editor y límites
 
 Las pruebas Unreal están en `Source/TsabsPassengerWagon/Private/Tests`. Desde la raíz del Starter Project:
@@ -45,4 +61,4 @@ Las pruebas Unreal están en `Source/TsabsPassengerWagon/Private/Tests`. Desde l
 
 Revisa el informe exportado y sus contadores, no solo el código de salida del editor. La automatización usada para018 dio27 casos correctos (24 sin avisos +3 con avisos SDK/UI), cero fallos/no ejecutados. Algunas implementaciones nativas del Starter Project son stubs: estas pruebas no demuestran transiciones nativas ni replicación en el juego real.
 
-También se verificaron el cook/ZIP y la presencia del import real de la DLL FactoryDedicatedClient en Shipping. Se probó un arranque real Windows DX11 hasta el menú, con cero errores Streaming. Aún faltan prueba real del cliente Proton, singleplayer del amigo y multijugador. Los logs privados no forman parte de esta distribución.
+También se verificaron el cook/ZIP y la presencia del import real de la DLL FactoryDedicatedClient en Shipping. Se probó un arranque real Windows DX11 hasta el menú, con cero errores Streaming. El binario publicado 0.1.8 también llegó al menú en el [cliente Proton afectado](docs/PROTON-STARTUP.md); siguen pendientes las pruebas dentro de una partida y el multijugador. Los logs privados no forman parte de esta distribución.

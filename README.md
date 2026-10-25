@@ -11,7 +11,7 @@ An unofficial, open-source passenger wagon mod for **Satisfactory on Steam**, by
 
 **[Download 0.1.8](https://github.com/Tsavyh/satisfactory-passenger-railcar/releases/download/v0.1.8/TsabsPassengerWagon-0.1.8-Steam-Proton-Publico.zip)** · [Español](README.es.md) · [Build from source](BUILDING.md) · [Report an issue](https://github.com/Tsavyh/satisfactory-passenger-railcar/issues/new/choose)
 
-> **Preview release.** Windows DX11 startup has been verified. **Proton startup and multiplayer are not yet verified for this version.** Back up your saves and test in a separate world before using a personal save.
+> **Preview release.** Windows DX11 startup has been verified. **Menu startup also passed on one Proton 10.0-4 client; gameplay and multiplayer remain unverified.** Back up your saves and test in a separate world before using a personal save.
 
 ## What it does
 
@@ -54,12 +54,12 @@ Preserve the log from that attempt before starting the game again. Close the gam
 | Area | Current evidence |
 | :--- | :--- |
 | Windows / Steam | 0.1.8 reached the menu in a real DX11 startup test |
-| Linux / Steam / Proton | 0.1.7 had a reported startup block; the 0.1.8 candidate needs testing on that client |
+| Linux / Steam / Proton | 0.1.8 reached the menu on the affected Arch Linux / Proton 10.0-4 client; [startup report and limits](docs/PROTON-STARTUP.md) |
 | Client/server multiplayer | Not yet validated |
 | Passenger travel with a human driver or autopilot | Separate acceptance tests still pending |
 | Dedicated servers / other storefronts | No validated release provided |
 
-**0.1.8 startup fix:** explicitly retains a required native game module. In the reproduced Windows DX11 case, streaming errors fell from **454 to 0**. This is not proof that the affected Proton client's full startup block is resolved. [Full changelog](CHANGELOG.md).
+**0.1.8 startup fix:** explicitly retains a required native game module. In the reproduced Windows DX11 case, streaming errors fell from **454 to 0**. The affected Proton client subsequently reached the menu with zero streaming errors too; gameplay and multiplayer still need separate checks. [Full changelog](CHANGELOG.md).
 
 ## Source, tests and contributions
 

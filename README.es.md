@@ -7,7 +7,7 @@ Mod no oficial de vagón de pasajeros para **Satisfactory en Steam**, creado por
 
 **[Descargar 0.1.8](https://github.com/Tsavyh/satisfactory-passenger-railcar/releases/download/v0.1.8/TsabsPassengerWagon-0.1.8-Steam-Proton-Publico.zip)** · [English](README.md) · [Compilar el código](BUILDING.es.md) · [Comunicar un problema](https://github.com/Tsavyh/satisfactory-passenger-railcar/issues/new/choose)
 
-> **Versión preliminar.** El arranque en Windows DX11 está verificado. **Proton y multijugador siguen pendientes de validación.** Haz copia de los guardados y usa una partida de pruebas, no una partida personal.
+> **Versión preliminar.** El arranque en Windows DX11 está verificado. **El menú también arrancó en un cliente con Proton 10.0-4; el juego dentro de una partida y el multijugador siguen sin validar.** Haz copia de los guardados y usa una partida de pruebas, no una partida personal.
 
 ## Qué ofrece
 
@@ -40,12 +40,12 @@ El ZIP incluye instrucciones, licencia MIT, un perfil opcional de SML solo y un 
 | Entorno o función | Estado |
 | :--- | :--- |
 | Arranque Windows / Steam | Menú verificado en una prueba real de 0.1.8 con DX11 |
-| Linux / Steam / Proton | La 0.1.7 tenía un bloqueo reportado; falta probar la corrección 0.1.8 en ese equipo |
+| Linux / Steam / Proton | La 0.1.8 llegó al menú en el cliente afectado con Arch Linux / Proton 10.0-4; [informe y límites](docs/PROTON-STARTUP.md) |
 | Multijugador con cliente remoto | Pendiente |
 | Viaje con otro jugador conduciendo y con piloto automático | Son pruebas separadas todavía pendientes |
 | Servidor dedicado y otras tiendas | Sin versión validada |
 
-La corrección 0.1.8 eliminó una cascada de **454 errores de carga** en el caso reproducido en Windows. **Eso no demuestra todavía que el bloqueo completo de Proton esté resuelto.** [Cambios de versión](CHANGELOG.md).
+La corrección 0.1.8 eliminó una cascada de **454 errores de carga** en el caso reproducido en Windows. El cliente Proton afectado también llegó después al menú con cero errores de carga; falta validar el juego dentro de una partida y el multijugador. [Cambios de versión](CHANGELOG.md).
 
 Si vuelve a fallar, conserva el log de ese intento antes de arrancar otra vez y retira solo el vagón para recuperar SML solo. No publiques identificadores de cuentas, parámetros de autenticación ni rutas personales. Puedes usar el [formulario de problemas](https://github.com/Tsavyh/satisfactory-passenger-railcar/issues/new?template=bug_report.yml).
 
